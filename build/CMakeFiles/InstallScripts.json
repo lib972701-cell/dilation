@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/ros/dilation/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

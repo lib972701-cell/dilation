@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/ros/dilation/build",
+  "command": "/usr/bin/c++  -I/home/ros/dilation/includes  -o CMakeFiles/dilation.dir/src/dilation.cpp.o -c /home/ros/dilation/src/dilation.cpp",
+  "file": "/home/ros/dilation/src/dilation.cpp",
+  "output": "CMakeFiles/dilation.dir/src/dilation.cpp.o"
+},
+{
+  "directory": "/home/ros/dilation/build",
+  "command": "/usr/bin/c++  -I/home/ros/dilation/includes  -o CMakeFiles/dilation.dir/src/main.cpp.o -c /home/ros/dilation/src/main.cpp",
+  "file": "/home/ros/dilation/src/main.cpp",
+  "output": "CMakeFiles/dilation.dir/src/main.cpp.o"
+}
+]
