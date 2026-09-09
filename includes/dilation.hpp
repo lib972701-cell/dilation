@@ -12,7 +12,8 @@ class dilation{
     public:
         dilation(vector<vector<int>>a);
         void expand(vector<vector<int>>b);
-        void point_dilation(int x,int y);
+        void square_point_dilation(int x,int y);
+        void circle_point_dilation(int x,int y);
         void dilation_process();
         void view_enter();
         void view_result();

@@ -1,6 +1,7 @@
 #include "dilation.hpp"
 #include <vector>
 #include <iostream>
+#include <cmath>
 
 
 dilation::dilation(vector<vector<int>>a)
@@ -9,6 +10,7 @@ dilation::dilation(vector<vector<int>>a)
     result.clear();
 }
 
+//扩容
 void dilation::expand(vector<vector<int>> oringin)
 {
     int rows = oringin.size();         //获取行数
@@ -25,7 +27,8 @@ void dilation::expand(vector<vector<int>> oringin)
 
 }
 
-void dilation::point_dilation(int x,int y)
+//膨胀
+void dilation::square_point_dilation(int x,int y)
 {
     int startx,starty;
     startx = x-2;
@@ -39,6 +42,30 @@ void dilation::point_dilation(int x,int y)
     }
 }
 
+void dilation::circle_point_dilation(int x,int y)
+{
+    int radius = 2;
+    int dx,dy;
+    int startx = x-2;
+    int starty = y-2;
+    float distance;
+    for(int i=startx;i<startx+5;i++)
+    {
+        for(int j = starty;j<starty+5;j++)
+        {
+            dx = i-x;
+            dy = j-y;
+            distance = sqrt(dx*dx+dy*dy);
+            if(distance <= 2)
+            {
+                result[i][j] = 1;
+            }
+        }
+    }
+
+}
+
+//总的处理
 void dilation::dilation_process()
 {
     int row,col;
@@ -51,12 +78,13 @@ void dilation::dilation_process()
         {
             if(enter_in[i][j] == 1)
             {
-                point_dilation(i+2,j+2);
+                circle_point_dilation(i+2,j+2);
             }
         }
     }
 }
 
+//展示输入的矩阵
 void dilation::view_enter()
 {
     int row,col;
@@ -72,6 +100,7 @@ void dilation::view_enter()
     }
 }
 
+//展示输出矩阵
 void dilation::view_result()
 {
     int row,col;
