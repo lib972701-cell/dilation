@@ -7,12 +7,15 @@ using namespace std;
 
 class dilation{
     private:
-        vector<vector<int>> enter_in;   
-        vector<vector<int>> result;    
+        vector<vector<int>> enter_in; //输入测试用例 
+        vector<vector<int>> result;    //膨胀算法后的结果
     public:
         dilation(vector<vector<int>>a);
-        vector<vector<int>> expand(vector<vector<int>>b);
+        void expand(vector<vector<int>>b);
+        void point_dilation(int x,int y);
         void dilation_process();
+        void view_enter();
+        void view_result();
 };
 
 

@@ -1,5 +1,7 @@
 #include "dilation.hpp"
 #include <vector>
+#include <iostream>
+
 
 dilation::dilation(vector<vector<int>>a)
 {
@@ -7,61 +9,80 @@ dilation::dilation(vector<vector<int>>a)
     result.clear();
 }
 
-vector<vector<int>> dilation::expand(vector<vector<int>> oringin)
+void dilation::expand(vector<vector<int>> oringin)
 {
-    vector<vector<int>> result;
     int rows = oringin.size();         //获取行数
     int cols = oringin[0].size();     //获取列数
-    int end_row = rows;
-    int end_col = cols;
-    int i,j;
-    //遍历待处理二维数组最外圈元素，进行扩容处理
-    for(i = 0;i<cols-1;i++)
-    {
-        if(oringin[0][i]==1)
-        {
-            i = cols-1;
-            end_row += 2;
-            break;
-        }
-    }
-    for(int j = 0;j<rows-1;j++)
-    {
-        if(oringin[i][j] == 1)
-        {
-            end_col+=2;
-            j=rows-1;
-            break;
-        }
-    }
-    for(j;j>0;j--)
-    {
-        if(oringin[rows-1][j]==1)
-        {
-            end_row+=2;
-            break;
-        }
-    }
-    for(i = rows-1;i>=0;i--)
-    {
-        if(oringin[i][0]==1)
-        {
-            end_col+=2;
-            break;
-        }
-    }
+    int end_row = rows+4;
+    int end_col = cols+4;
 
-    //扩容二维容器
+    //扩容result容器
     result.resize(end_row);
     for(auto& row:result)
     {
         row.resize(end_col);
     }
+
+}
+
+void dilation::point_dilation(int x,int y)
+{
+    int startx,starty;
+    startx = x-2;
+    starty = y-2;
+    for(int i=startx;i<startx+5;i++)
+    {
+        for(int j=starty;j<starty+5;j++)
+        {
+            result[i][j] = 1;
+        }
+    }
 }
 
 void dilation::dilation_process()
 {
-    int rows = enter_in.size();         //获取行数
-    int cols = enter_in[0].size();     //获取列数
+    int row,col;
+    expand(enter_in);
+    row = enter_in.size();
+    col = enter_in[0].size();
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<col;j++)
+        {
+            if(enter_in[i][j] == 1)
+            {
+                point_dilation(i+2,j+2);
+            }
+        }
+    }
+}
 
+void dilation::view_enter()
+{
+    int row,col;
+    row = enter_in.size();
+    col = enter_in[0].size();
+    for(int i = 0;i<row;i++)
+    {
+        for(int j=0;j<col;j++)
+        {
+            cout<<enter_in[i][j]<<' ';
+        }
+        cout<<endl;
+    }
+}
+
+void dilation::view_result()
+{
+    int row,col;
+    row = result.size();
+    col = result[0].size();
+    for(int i = 0;i<row;i++)
+    {
+        for(int j=0;j<col;j++)
+        {
+            cout<<result[i][j]<<' ';
+        }
+        cout<<endl;
+    }
 }
