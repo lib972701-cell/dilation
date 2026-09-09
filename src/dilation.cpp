@@ -84,6 +84,49 @@ void dilation::dilation_process()
     }
 }
 
+bool dilation::is_struct_point(int x,int y)
+{
+    int startx = x-2;
+    int starty = y-2;
+    if(enter_in[x][y] == 1)
+    {
+        for(int i = startx;i<startx+5;i++)
+        {
+            for(int j=starty;j<starty+5;j++)
+            {
+                if(enter_in[i][j] != 1)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+void dilation::shrink_process()
+{
+    int row = enter_in.size();
+    int col = enter_in[0].size();
+    result.resize(row);
+    //收缩result
+    for(auto& row:result)
+    {
+        row.resize(col);
+    }
+    for(int i = 2;i<row-2;i++)
+    {
+        for(int j = 2;j<col-2;j++)
+        {
+            if(is_struct_point(i, j))
+            {
+                result[i][j] = 1;
+            }
+        }
+    }
+}
+
 //展示输入的矩阵
 void dilation::view_enter()
 {
