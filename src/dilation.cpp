@@ -4,9 +4,12 @@
 #include <cmath>
 
 
-dilation::dilation(vector<vector<int>>a)
+dilation::dilation(vector<vector<int>>a,vector<vector<int>>b)
 {
     enter_in = a;
+    struct_element = b;
+    ele_row = struct_element.size();
+    ele_col = struct_element[0].size();
     result.clear();
 }
 
@@ -15,8 +18,8 @@ void dilation::expand(vector<vector<int>> oringin)
 {
     int rows = oringin.size();         //获取行数
     int cols = oringin[0].size();     //获取列数
-    int end_row = rows+4;
-    int end_col = cols+4;
+    int end_row = rows + ele_row/2*2;
+    int end_col = cols + ele_col/2*2;
 
     //扩容result容器
     result.resize(end_row);
@@ -28,30 +31,34 @@ void dilation::expand(vector<vector<int>> oringin)
 }
 
 //膨胀
-void dilation::square_point_dilation(int x,int y)
+void dilation::point_dilation(int x,int y)
 {
     int startx,starty;
-    startx = x-2;
-    starty = y-2;
-    for(int i=startx;i<startx+5;i++)
+    startx = x-ele_row / 2;
+    starty = y-ele_col/2;
+    for(int i=0;i<ele_row;i++)
     {
-        for(int j=starty;j<starty+5;j++)
+        for(int j=0;j<ele_col;j++)
         {
-            result[i][j] = 1;
+            if(struct_element[i][j] == 1)
+            {
+                result[startx+i][starty+j] = 1;
+            }
         }
     }
+    
 }
 
 void dilation::circle_point_dilation(int x,int y)
 {
     int radius = 2;
     int dx,dy;
-    int startx = x-2;
-    int starty = y-2;
+    int startx = x-radius;
+    int starty = y-radius;
     float distance;
-    for(int i=startx;i<startx+5;i++)
+    for(int i=startx;i<startx+2*radius+1;i++)
     {
-        for(int j = starty;j<starty+5;j++)
+        for(int j = starty;j<starty+2*radius+1;j++)
         {
             dx = i-x;
             dy = j-y;
@@ -78,7 +85,7 @@ void dilation::dilation_process()
         {
             if(enter_in[i][j] == 1)
             {
-                circle_point_dilation(i+2,j+2);
+                point_dilation(i+struct_element.size()/2,j+struct_element[0].size()/2);
             }
         }
     }
@@ -86,22 +93,20 @@ void dilation::dilation_process()
 
 bool dilation::is_struct_point(int x,int y)
 {
-    int startx = x-2;
-    int starty = y-2;
-    if(enter_in[x][y] == 1)
-    {
-        for(int i = startx;i<startx+5;i++)
+    int startx = x-ele_row/2;
+    int starty = y-ele_col/2;
+        for(int i = 0;i<ele_row;i++)
         {
-            for(int j=starty;j<starty+5;j++)
+            for(int j=0;j<ele_col;j++)
             {
-                if(enter_in[i][j] != 1)
+                if(struct_element[i][j]==1 && enter_in[startx+i][starty+j] == 0)
                 {
                     return false;
                 }
             }
         }
         return true;
-    }
+    
     return false;
 }
 
@@ -109,15 +114,17 @@ void dilation::shrink_process()
 {
     int row = enter_in.size();
     int col = enter_in[0].size();
+    int ele_row = struct_element.size();
+    int ele_col = struct_element[0].size();
     result.resize(row);
     //收缩result
     for(auto& row:result)
     {
         row.resize(col);
     }
-    for(int i = 2;i<row-2;i++)
+    for(int i = ele_row/2;i<row-ele_row/2;i++)
     {
-        for(int j = 2;j<col-2;j++)
+        for(int j = ele_col/2;j<col-ele_col/2;j++)
         {
             if(is_struct_point(i, j))
             {

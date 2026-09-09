@@ -8,6 +8,15 @@ using std::vector;
 
 int main()
 {
+    //定义结构元素
+    vector<vector<int>> str_ele = {
+        {0,0,1,0,0},
+        {1,1,1,1,1},
+        {1,1,1,1,1},
+        {1,1,1,1,1},
+        {0,1,1,1,0}
+    };
+
     // ==================== 膨胀测试用例 ====================
     vector<vector<int>> dilation_test1 = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -74,17 +83,17 @@ int main()
         dilation_test4, dilation_test5
     };
 
-    // for(int i = 0;i<static_cast<int>(dilation_tests.size());i++)
-    // {
-    //     cout<<"===== dilation test "<<i+1<<" ====="<<'\n';
-    //     dilation test(dilation_tests[i]);
-    //     cout<<"input:"<<'\n';
-    //     test.view_enter();
-    //     test.dilation_process();
-    //     cout<<"result:"<<'\n';
-    //     test.view_result();
-    //     cout<<'\n';
-    // }
+    for(int i = 0;i<3;i++)
+    {
+        cout<<"===== dilation test "<<i+1<<" ====="<<'\n';
+        dilation test(dilation_tests[i],str_ele);
+        cout<<"input:"<<'\n';
+        test.view_enter();
+        test.dilation_process();
+        cout<<"result:"<<'\n';
+        test.view_result();
+        cout<<'\n';
+    }
 
     // ==================== 腐蚀测试用例 ====================
     // 用例 1：5×5 实心块，腐蚀后只剩正中心的一个点。
@@ -159,19 +168,19 @@ int main()
 
     vector<vector<vector<int>>> erosion_tests = {test1, test2, test3, test4, test5};
 
-    for(int i = 0;i<static_cast<int>(erosion_tests.size());i++)
-    {
-        cout<<"===== erosion test "<<i+1<<" ====="<<'\n';
-        dilation test(erosion_tests[i]);
+    // for(int i = 0;i<static_cast<int>(erosion_tests.size());i++)
+    // {
+    //     cout<<"===== erosion test "<<i+1<<" ====="<<'\n';
+    //     dilation test(erosion_tests[i],str_ele);
 
-        cout<<"input:"<<'\n';
-        test.view_enter();
+    //     cout<<"input:"<<'\n';
+    //     test.view_enter();
 
-        test.shrink_process();
-        cout<<"result:"<<'\n';
-        test.view_result();
-        cout<<'\n';
-    }
+    //     test.shrink_process();
+    //     cout<<"result:"<<'\n';
+    //     test.view_result();
+    //     cout<<'\n';
+    // }
 
     return 0;
 }
